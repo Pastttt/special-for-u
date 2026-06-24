@@ -39,7 +39,7 @@
             align-items: center;
         }
 
-        /* Mobile Device Container Wrapper with Animated Background Mesh */
+        /* Mobile Device Container Wrapper with Blurred Sakura Background */
         #app-container {
             width: 100%;
             height: 100%;
@@ -51,26 +51,21 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
-        /* Background Animasi Musik / Romantis Konstan */
+        /* Background Gambar Sakura Blur */
         #app-container::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 107, 139, 0.12) 0%, transparent 40%),
-                        radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.1) 0%, transparent 45%),
-                        radial-gradient(circle at 50% 10%, rgba(255, 182, 193, 0.05) 0%, transparent 35%);
-            animation: ambientMesh 25s ease-in-out infinite alternate;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('estetic.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(1px);
+            transform: scale(1.05); /* Mencegah border putih akibat efek blur */
             z-index: 0;
             pointer-events: none;
-        }
-
-        @keyframes ambientMesh {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            50% { transform: translate(-5%, 5%) rotate(10deg) scale(1.1); }
-            100% { transform: translate(5%, -5%) rotate(-10deg) scale(1); }
         }
 
         @media (min-width: 441px) {
@@ -79,36 +74,6 @@
                 border-radius: 40px;
             }
         }
-
-        /* --- NEW: GLOBAL PARTICLES BACKGROUND (BINTANG & LOVE JATUH) --- */
-        #global-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0; /* Di belakang layar konten utama */
-        }
-
-        .global-particle {
-            position: absolute;
-            top: -10%;
-            opacity: 0;
-            text-shadow: 0 0 15px rgba(255, 107, 139, 0.8);
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
-            animation: fallDown linear infinite;
-        }
-
-        @keyframes fallDown {
-            0% { transform: translateY(0vh) translateX(0px) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 0.6; }
-            50% { opacity: 0.8; transform: translateY(50vh) translateX(15px) rotate(180deg) scale(1.1); }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(110vh) translateX(-15px) rotate(360deg) scale(0.8); opacity: 0; }
-        }
-        /* ------------------------------------------------------------- */
 
         /* Global Screen Styles */
         .screen {
@@ -163,7 +128,7 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* --- UPDATED BUTTONS WITH SPRINGY CLICK ANIMATION & EFFECTS --- */
+        /* BUTTONS WITH SPRINGY CLICK ANIMATION & EFFECTS */
         .btn-primary, .btn-secondary, .key, .play-intro-btn, .spotify-play-main, .spotify-footer-btn {
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -416,7 +381,7 @@
             text-transform: uppercase;
         }
 
-        /* --- UPDATED PHOTO FRAMES WITH CINEMATIC FLOATING & SHINE EFFECT --- */
+        /* PHOTO FRAMES WITH CINEMATIC FLOATING & SHINE EFFECT */
         .story-container {
             flex: 1;
             display: flex;
@@ -919,7 +884,7 @@
             object-fit: cover;
         }
 
-        /* --- NEW SCREENS (FEEDBACK & CLOSING) --- */
+        /* NEW SCREENS (FEEDBACK & CLOSING) */
         .feedback-title {
             font-size: 24px;
             text-align: center;
@@ -971,14 +936,21 @@
                 opacity: 0;
             }
         }
+
+        /* Ukuran standar foto kecil ledekan pop up */
+        .popup-small-img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        
-        <!-- Wadah untuk animasi partikel background (Bintang & Love) -->
-        <div id="global-particles"></div>
 
         <section class="screen active" id="screen-lock">
             <div class="lock-header">
@@ -1023,6 +995,7 @@
 
             <div class="modal-overlay" id="choice-modal">
                 <div class="glass-card modal-content">
+                    <img class="popup-small-img" src="nailong3.png" alt="Foto Marah">
                     <p style="font-size: 18px; line-height: 1.5;">oh gitu sekarang kamu sama akk 😠</p>
                     <button class="btn-primary btn-glow" onclick="showChoiceModal(false)">Balik lagi!</button>
                 </div>
@@ -1030,7 +1003,8 @@
         </section>
 
         <section class="screen" id="screen-opener">
-            <p class="opener-text">You look so beautiful todayy ✨</p>
+            <img class="popup-small-img" src="plenger.png" alt="Beautiful Photo">
+            <p class="opener-text">Haiii, you look so beautiful todayy ✨</p>
             <button class="btn-primary btn-glow" style="width: 80%; max-width: 260px;" onclick="nextScreen('screen-intro-music')">bukalah &lt;3</button>
         </section>
 
@@ -1040,6 +1014,14 @@
                     <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <p class="intro-label">Pencett itu!</p>
+            </div>
+
+            <div class="modal-overlay" id="intro-trap-modal">
+                <div class="glass-card modal-content">
+                    <video id="trap-video" class="popup-small-img" src="kadal.mp4" loop muted playsinline></video>
+                    <p style="font-size: 18px; line-height: 1.5;">Yahahaha gabisa, coba lagi yuks</p>
+                    <button class="btn-primary btn-glow" onclick="closeIntroTrapModal()">Coba lagi</button>
+                </div>
             </div>
         </section>
 
@@ -1127,7 +1109,7 @@
                 </div>
             </div>
             <div class="wa-chat-body" id="wa-messages-container">
-                </div>
+            </div>
             <div style="padding: 16px; background-color: var(--whatsapp-incoming); z-index: 4;">
                 <button class="btn-primary" style="width:100%;" onclick="nextScreen('screen-code-input')">Lanjutkan</button>
             </div>
@@ -1183,12 +1165,13 @@
 
                 <div class="feedback-buttons" id="feedback-2-btns-container">
                     <button class="btn-primary btn-glow" onclick="triggerTrueEnding()">Bagus bangett</button>
-                    <button class="btn-secondary" id="btn-no-feedback" onclick="handleFeedbackNo()">Ga</button>
+                    <button class="btn-secondary" id="id-no-feedback" onclick="handleFeedbackNo()">Ga</button>
                 </div>
             </div>
 
             <div class="modal-overlay" id="feedback-modal">
                 <div class="glass-card modal-content">
+                    <img class="popup-small-img" id="feedback-modal-img" src="" alt="Foto Ledekan Feedback" style="display: none;">
                     <p id="feedback-modal-text" style="font-size: 18px; line-height: 1.5;"></p>
                     <button class="btn-primary" onclick="closeFeedbackModal()">Kembali</button>
                 </div>
@@ -1216,6 +1199,7 @@
         const globalAudio = new Audio();
         let currentTrackIndex = null;
         let isIntroPlaying = false;
+        let introClickCount = 0; // State penghitung klik tombol intro musik
 
         // Tracks definition
         const tracklistData = [
@@ -1228,40 +1212,6 @@
             { title: "About You", artist: "The 1975", src: "track7.mp3", duration: "5:26" },
             { title: "you!", artist: "LANY", src: "track8.mp3", duration: "4:34" }
         ];
-
-        // --- NEW: FUNGSI MEMUNCULKAN PARTIKEL GLOBAL (BINTANG & LOVE JATUH) ---
-        function initGlobalParticles() {
-            const container = document.getElementById('global-particles');
-            const particleTypes = ['✨', '💖', '⭐', '🤍', '💫'];
-
-            setInterval(() => {
-                const particle = document.createElement('div');
-                particle.className = 'global-particle';
-                particle.innerHTML = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-                
-                // Variasi Ukuran, Posisi, dan Kecepatan Partikel
-                const size = Math.random() * 15 + 10; 
-                const left = Math.random() * 100; 
-                const animDuration = Math.random() * 6 + 6; // 6s to 12s
-                const delay = Math.random() * 3;
-
-                particle.style.fontSize = `${size}px`;
-                particle.style.left = `${left}%`;
-                particle.style.animationDuration = `${animDuration}s`;
-                particle.style.animationDelay = `${delay}s`;
-
-                container.appendChild(particle);
-
-                // Membersihkan partikel agar tidak lemot (memory leak)
-                setTimeout(() => {
-                    particle.remove();
-                }, (animDuration + delay) * 1000);
-            }, 350); // Kecepatan memunculkan partikel baru
-        }
-
-        // Jalankan saat web dibuka
-        initGlobalParticles();
-        // ----------------------------------------------------------------------
 
         // PIN Screen State
         let enteredPin = "";
@@ -1329,6 +1279,18 @@
 
         // Audio Handling System
         function startIntroMusic() {
+            // Trap klik pertama kali -> Menampilkan modal video kadal
+            if (introClickCount === 0) {
+                introClickCount++;
+                document.getElementById('intro-trap-modal').classList.add('active');
+                const trapVid = document.getElementById('trap-video');
+                if (trapVid) {
+                    trapVid.currentTime = 0;
+                    trapVid.play().catch(e => console.log("Video play deferred: ", e));
+                }
+                return;
+            }
+
             globalAudio.src = "intro.mp3";
             globalAudio.loop = true;
             globalAudio.volume = 0;
@@ -1347,6 +1309,14 @@
             }, 100);
 
             nextScreen('screen-story-1');
+        }
+
+        function closeIntroTrapModal() {
+            document.getElementById('intro-trap-modal').classList.remove('active');
+            const trapVid = document.getElementById('trap-video');
+            if (trapVid) {
+                trapVid.pause();
+            }
         }
 
         function goToSpotifyScreen() {
@@ -1555,15 +1525,20 @@
             clickCountNo++;
             const modal = document.getElementById('feedback-modal');
             const modalText = document.getElementById('feedback-modal-text');
+            const modalImg = document.getElementById('feedback-modal-img');
             const btnsContainer = document.getElementById('feedback-2-btns-container');
-            const btnNoFeedback = document.getElementById('btn-no-feedback');
+            const btnNoFeedback = document.getElementById('id-no-feedback');
             const tauntText = document.getElementById('feedback-taunt-text');
 
+            modalImg.style.display = "block"; // Aktifkan display gambar kecil
+
             if (clickCountNo === 1) {
+                modalImg.src = "dudu.png"; // Set foto kecil pertama
                 modalText.innerText = "Dih, pilih ulang gaa!!!";
                 modal.classList.add('active');
             } else if (clickCountNo === 2) {
-                modalText.innerText = "Dibilang pilih ulangg!!";
+                modalImg.src = "duduu.png"; // Set foto kecil kedua
+                modalText.innerText = "Aih ngeyel, dibilang pilih ulangg!!";
                 modal.classList.add('active');
             } else {
                 // Remove the NO button completely on 3rd attempt
