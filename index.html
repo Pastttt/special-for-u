@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Our Cinematic Love Story</title>
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-card: rgba(22, 22, 26, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-pink: #ff6b8b;
+            --accent-glow: rgba(255, 107, 139, 0.4);
+            --spotify-green: #1db954;
+            --whatsapp-bg: #0b141a;
+            --whatsapp-incoming: #202c33;
+            --whatsapp-outgoing: #005c4b;
+            --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--apple-font);
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mobile Device Container Wrapper with Animated Background Mesh */
+        #app-container {
+            width: 100%;
+            height: 100%;
+            max-width: 440px;
+            max-height: 956px;
+            position: relative;
+            overflow: hidden;
+            background-color: #0d0d11;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Background Animasi Musik / Romantis Konstan */
+        #app-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 107, 139, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.1) 0%, transparent 45%),
+                        radial-gradient(circle at 50% 10%, rgba(255, 182, 193, 0.05) 0%, transparent 35%);
+            animation: ambientMesh 25s ease-in-out infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes ambientMesh {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(-5%, 5%) rotate(10deg) scale(1.1); }
+            100% { transform: translate(5%, -5%) rotate(-10deg) scale(1); }
+        }
+
+        @media (min-width: 441px) {
+            #app-container {
+                border: 8px solid #222;
+                border-radius: 40px;
+            }
+        }
+
+        /* --- NEW: GLOBAL PARTICLES BACKGROUND (BINTANG & LOVE JATUH) --- */
+        #global-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0; /* Di belakang layar konten utama */
+        }
+
+        .global-particle {
+            position: absolute;
+            top: -10%;
+            opacity: 0;
+            text-shadow: 0 0 15px rgba(255, 107, 139, 0.8);
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+            animation: fallDown linear infinite;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { opacity: 0.8; transform: translateY(50vh) translateX(15px) rotate(180deg) scale(1.1); }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(110vh) translateX(-15px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+        /* ------------------------------------------------------------- */
+
+        /* Global Screen Styles */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.03);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            padding-top: calc(24px + env(safe-area-inset-top));
+            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        /* Universal Background Overlay for cinematic feel */
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(10, 10, 12, 0.1) 0%, rgba(10, 10, 12, 0.8) 100%);
+            z-index: -1;
+        }
+
+        /* Glassmorphism Components */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- UPDATED BUTTONS WITH SPRINGY CLICK ANIMATION & EFFECTS --- */
+        .btn-primary, .btn-secondary, .key, .play-intro-btn, .spotify-play-main, .spotify-footer-btn {
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.92) translateY(2px);
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-glow {
+            background: var(--accent-pink);
+            color: white;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-glow:active {
+            box-shadow: 0 0 30px var(--accent-pink), 0 0 10px rgba(255, 107, 139, 0.8);
+            transform: scale(0.92) translateY(2px);
+            background: #ff5276;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(0.92) translateY(2px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- SCREEN 1: LOCKSCREEN --- */
+        #screen-lock {
+            background-image: url('photo_bg_blur.jpg');
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lock-header {
+            text-align: center;
+            margin-top: 40px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .lock-header h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            line-height: 1.4;
+            padding: 0 16px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .lock-hint {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .pin-dots {
+            display: flex;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dot.filled {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .pin-error-msg {
+            color: var(--accent-pink);
+            font-size: 14px;
+            height: 20px;
+            text-align: center;
+            margin-bottom: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+
+        .key {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 400;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .key:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.86);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- SCREEN 2: CHOICE --- */
+        #screen-choice {
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .choice-title {
+            font-size: 24px;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .choice-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+
+        /* Modal Structure */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* --- SCREEN 3: OPENER --- */
+        #screen-opener {
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .opener-text {
+            font-size: 26px;
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        /* --- SCREEN 4: INTRO MUSIC --- */
+        #screen-intro-music {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .play-intro-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.4);
+        }
+
+        .play-intro-btn:active {
+            transform: scale(0.85);
+            box-shadow: 0 0 50px var(--accent-pink);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .play-intro-btn svg {
+            width: 36px;
+            height: 36px;
+            fill: #000;
+            margin-left: 4px;
+        }
+
+        .intro-label {
+            margin-top: 24px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- UPDATED PHOTO FRAMES WITH CINEMATIC FLOATING & SHINE EFFECT --- */
+        .story-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 4/5;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 107, 139, 0.25);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+            position: relative;
+            padding: 12px;
+            animation: floatingCinematic 6s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Gloss sheen element inside frames */
+        .photo-frame::after, .child-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: skewX(-20deg);
+            animation: sheenSweep 4.5s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatingCinematic {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-10px) scale(1.01) rotate(0.5deg); }
+        }
+
+        @keyframes sheenSweep {
+            0% { left: -150%; }
+            50%, 100% { left: 150%; }
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        .story-caption {
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        /* --- SCREEN 6: SPOTIFY PLAYLIST --- */
+        #screen-spotify {
+            background-color: #121212;
+            padding: 0;
+        }
+
+        #screen-spotify::before {
+            display: none; /* Keep Spotify interface clean */
+        }
+
+        .spotify-header {
+            padding: 40px 24px 20px 24px;
+            background: linear-gradient(to bottom, #404040 0%, #121212 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .spotify-badge {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spotify-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .spotify-subtitle {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+
+        .spotify-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            width: 100%;
+            padding: 0 24px;
+            margin-bottom: 16px;
+        }
+
+        .spotify-play-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--spotify-green);
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .spotify-play-main:active {
+            transform: scale(0.88);
+            box-shadow: 0 0 20px var(--spotify-green);
+            filter: brightness(1.1);
+        }
+
+        .spotify-play-main svg {
+            width: 24px;
+            height: 24px;
+            fill: black;
+        }
+
+        .spotify-heart {
+            fill: var(--spotify-green);
+            width: 28px;
+            height: 28px;
+        }
+
+        .track-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 220px; 
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 0 -8px;
+        }
+
+        .track-item:active {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(0.97);
+        }
+
+        .track-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .track-index {
+            color: #b3b3b3;
+            width: 20px;
+            font-size: 14px;
+        }
+
+        .track-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .track-artist {
+            font-size: 13px;
+            color: #b3b3b3;
+        }
+
+        .track-item.playing .track-title {
+            color: var(--spotify-green);
+        }
+
+        .track-item.playing .track-index {
+            color: var(--spotify-green);
+            font-weight: bold;
+        }
+
+        .now-playing-bar {
+            position: absolute;
+            bottom: 80px;
+            left: 16px;
+            right: 16px;
+            background: #282828;
+            border-radius: 8px;
+            padding: 8px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        .now-playing-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .now-playing-text h4 {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .now-playing-text p {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .progress-time {
+            font-size: 10px;
+            color: #b3b3b3;
+            width: 30px;
+        }
+
+        .progress-bar-bg {
+            flex: 1;
+            height: 4px;
+            background: #4f4f4f;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 2px;
+            width: 0%;
+        }
+
+        .spotify-footer-btn {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 5;
+        }
+
+        /* --- SCREEN 7: WHATSAPP CHAT --- */
+        #screen-whatsapp {
+            background-color: var(--whatsapp-bg);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #screen-whatsapp::before {
+            display: none; /* Keep original WA background styling */
+        }
+
+        .wa-header {
+            background-color: var(--whatsapp-incoming);
+            padding: 32px 16px 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .wa-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #555;
+            background-image: url('photo_wa_avatar.jpg');
+            background-size: cover;
+        }
+
+        .wa-user-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .wa-user-info p {
+            font-size: 12px;
+            color: #8696a0;
+        }
+
+        .wa-chat-body {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .wa-bubble {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .wa-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wa-incoming {
+            background-color: var(--whatsapp-incoming);
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .wa-outgoing {
+            background-color: var(--whatsapp-outgoing);
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .wa-time {
+            font-size: 10px;
+            color: #8696a0;
+            text-align: right;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* --- SCREEN 8: CODE INPUT --- */
+        #screen-code-input {
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .code-title {
+            font-size: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .code-input-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+            font-size: 24px;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 4px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .code-input-box:focus {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 107, 139, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- SCREEN 9: CHILDHOOD FRAMES WITH ANIMATED STAGGERED FLOAT --- */
+        #screen-childhood {
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .childhood-photos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .child-frame {
+            aspect-ratio: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 107, 139, 0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+            padding: 10px;
+            position: relative;
+            animation: floatingCinematic 5.5s ease-in-out infinite;
+        }
+
+        .childhood-photos div:nth-child(2) {
+            animation-delay: 0.7s; /* staggered effect */
+        }
+
+        .child-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .childhood-quote {
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            font-style: italic;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* --- SCREEN 10: QUESTION --- */
+        #screen-question {
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .question-title {
+            font-size: 24px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .question-actions {
+            position: relative;
+            width: 100%;
+            height: 120px;
+        }
+
+        #btn-yes-final {
+            position: absolute;
+            left: 16px;
+            top: 30px;
+            width: calc(50% - 24px);
+            z-index: 5;
+        }
+
+        #btn-no-final {
+            position: absolute;
+            right: 16px;
+            top: 30px;
+            width: calc(50% - 24px);
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+        }
+
+        #taunt-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            position: absolute;
+            bottom: 40px; 
+            top: auto; 
+            width: 100%;
+            z-index: 1; 
+            pointer-events: none; 
+        }
+
+        .taunt-text {
+            color: var(--accent-pink);
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .taunt-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            object-fit: cover;
+        }
+
+        /* --- NEW SCREENS (FEEDBACK & CLOSING) --- */
+        .feedback-title {
+            font-size: 24px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .feedback-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* Hearts animation overlay khusus untuk closing */
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: var(--accent-pink);
+            opacity: 0.6;
+            animation: floatHeart 4s linear infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(105vh) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-5vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <!-- Wadah untuk animasi partikel background (Bintang & Love) -->
+        <div id="global-particles"></div>
+
+        <section class="screen active" id="screen-lock">
+            <div class="lock-header">
+                <h2>Hi lovee, ayo tebak passwordnya, i bet u knowww!! 🧐🤭</h2>
+                <p class="lock-hint">clue: my birthday</p>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; z-index: 1;">
+                <div class="pin-error-msg" id="pin-error"></div>
+                <div class="pin-dots" id="pin-dots-container">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="keypad">
+                    <button class="key" onclick="pressPin('1')">1</button>
+                    <button class="key" onclick="pressPin('2')">2</button>
+                    <button class="key" onclick="pressPin('3')">3</button>
+                    <button class="key" onclick="pressPin('4')">4</button>
+                    <button class="key" onclick="pressPin('5')">5</button>
+                    <button class="key" onclick="pressPin('6')">6</button>
+                    <button class="key" onclick="pressPin('7')">7</button>
+                    <button class="key" onclick="pressPin('8')">8</button>
+                    <button class="key" onclick="pressPin('9')">9</button>
+                    <div></div>
+                    <button class="key" onclick="pressPin('0')">0</button>
+                    <button class="key" style="font-size: 16px;" onclick="clearPin()">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-choice">
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; gap: 32px;">
+                <p class="choice-title">Are u ready to open thiss?</p>
+                <div class="choice-buttons">
+                    <button class="btn-primary" onclick="nextScreen('screen-opener')">yesss</button>
+                    <button class="btn-secondary" onclick="showChoiceModal(true)">nooo</button>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="choice-modal">
+                <div class="glass-card modal-content">
+                    <p style="font-size: 18px; line-height: 1.5;">oh gitu sekarang kamu sama akk 😠</p>
+                    <button class="btn-primary btn-glow" onclick="showChoiceModal(false)">Balik lagi!</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-opener">
+            <p class="opener-text">You look so beautiful todayy ✨</p>
+            <button class="btn-primary btn-glow" style="width: 80%; max-width: 260px;" onclick="nextScreen('screen-intro-music')">bukalah &lt;3</button>
+        </section>
+
+        <section class="screen" id="screen-intro-music">
+            <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <button class="play-intro-btn" onclick="startIntroMusic()">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <p class="intro-label">Pencett itu!</p>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-story-1">
+            <div class="story-container">
+                <div class="photo-frame">
+                    <img src="img1.jpg" alt="Cerita 1">
+                </div>
+                <p class="story-caption">Bukan tentang seberapa lama kita bersama, tapi tentang bagaimana kita tetap memilih satu sama lain setiap harinya.</p>
+                <button class="btn-primary" style="width: 100%;" onclick="nextScreen('screen-story-2')">Berikutnya</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-story-2">
+            <div class="story-container">
+                <div class="photo-frame">
+                    <img src="img2.jpg" alt="Cerita 2">
+                </div>
+                <p class="story-caption">Di antara banyaknya orang yang datang dan pergi, ada satu orang yang selalu ingin aku jadikan tempat pulang.</p>
+                <button class="btn-primary" style="width: 100%;" onclick="nextScreen('screen-story-3')">Berikutnya</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-story-3">
+            <div class="story-container">
+                <div class="photo-frame">
+                    <img src="img3.jpg" alt="Cerita 3">
+                </div>
+                <p class="story-caption">Ngelakuin hal-hal random sama kamu itu emang bagian terbaik dalam hidup aku.</p>
+                <button class="btn-primary" style="width: 100%;" onclick="nextScreen('screen-story-4')">Berikutnya</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-story-4">
+            <div class="story-container">
+                <div class="photo-frame">
+                    <img src="img4.jpg" alt="Cerita 4">
+                </div>
+                <p class="story-caption">Makasih ya udah terus bertahan dan melangkah bareng aku sampai detik ini.</p>
+                <button class="btn-primary" style="width: 100%;" onclick="goToSpotifyScreen()">Berikutnya</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-spotify">
+            <div class="spotify-header">
+                <span class="spotify-badge">PLAYLIST</span>
+                <h1 class="spotify-title">for u</h1>
+                <p class="spotify-subtitle">Specially made to accompany your dayy</p>
+            </div>
+            <div class="spotify-controls">
+                <button class="spotify-play-main" onclick="toggleSpotifyPlay()">
+                    <svg viewBox="0 0 24 24" id="spotify-main-icon"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <svg class="spotify-heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+
+            <div class="track-list" id="spotify-tracklist">
+            </div>
+
+            <div class="now-playing-bar">
+                <div class="now-playing-info">
+                    <div class="now-playing-text">
+                        <h4 id="np-title">Tidak ada lagu</h4>
+                        <p id="np-artist">Pilih lagu di atas</p>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <span class="progress-time" id="progress-current">0:00</span>
+                    <div class="progress-bar-bg" onclick="seekAudio(event)">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-time" id="progress-duration">0:00</span>
+                </div>
+            </div>
+
+            <button class="btn-primary spotify-footer-btn" onclick="nextScreen('screen-whatsapp')">Lanjutkan</button>
+        </section>
+
+        <section class="screen" id="screen-whatsapp">
+            <div class="wa-header">
+                <div class="wa-avatar"></div>
+                <div class="wa-user-info">
+                    <h3>Sayangg</h3>
+                    <p id="wa-status">Online</p>
+                </div>
+            </div>
+            <div class="wa-chat-body" id="wa-messages-container">
+                </div>
+            <div style="padding: 16px; background-color: var(--whatsapp-incoming); z-index: 4;">
+                <button class="btn-primary" style="width:100%;" onclick="nextScreen('screen-code-input')">Lanjutkan</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-code-input">
+            <div class="glass-card" style="display: flex; flex-direction: column; gap: 24px; text-align: center;">
+                <p class="code-title">Ayo masukkin kode rahasia dari WhatsApp tadi:</p>
+                <input type="number" class="code-input-box" id="secret-code-field" placeholder="••••••••" oninput="checkSecretCode()">
+                <p class="pin-error-msg" id="code-error" style="margin: 0;"></p>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-childhood">
+            <div class="childhood-photos">
+                <div class="child-frame">
+                    <img src="kecil1.jpg" alt="Masa Kecil 1">
+                </div>
+                <div class="child-frame">
+                    <img src="kecil2.jpg" alt="Masa Kecil 2">
+                </div>
+            </div>
+            <p class="childhood-quote">"Kadang-kadang aku mikir, lucu juga ya kita bisa sampai sejauh ini."</p>
+            <button class="btn-primary" style="width: 100%; margin-top: 24px;" onclick="nextScreen('screen-question')">Lanjutkan</button>
+        </section>
+
+        <section class="screen" id="screen-question">
+            <p class="question-title" style="margin-top: 20px;">kamu sayang banget kan sama aku?</p>
+            
+            <div class="question-actions" id="question-actions-zone">
+                <button class="btn-primary" id="btn-yes-final" onclick="nextScreen('screen-feedback-1')">Iya dong</button>
+                <button class="btn-secondary" id="btn-no-final">Ga</button>
+            </div>
+
+            <div id="taunt-zone">
+                <p class="taunt-text">Gabisa di pencet wleeee</p>
+                <img class="taunt-image" src="nailong.png" alt="Foto Taunt">
+            </div>
+        </section>
+
+        <section class="screen" id="screen-feedback-1">
+            <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; border: none; background: transparent;">
+                <p class="feedback-title">Gimana suka kan?</p>
+                <button class="btn-primary btn-glow" style="width: 100%; max-width: 250px;" onclick="nextScreen('screen-feedback-2')">Suka banget</button>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-feedback-2">
+            <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; border: none; background: transparent; padding: 0;">
+                <p class="feedback-title">Bagus juga kan? hehee</p>
+                
+                <p id="feedback-taunt-text" style="display: none; color: var(--accent-pink); font-size: 16px; font-style: italic; margin-bottom: 20px;">Gabisa kan jadi ilang tombolnya wlee 😜</p>
+
+                <div class="feedback-buttons" id="feedback-2-btns-container">
+                    <button class="btn-primary btn-glow" onclick="triggerTrueEnding()">Bagus bangett</button>
+                    <button class="btn-secondary" id="btn-no-feedback" onclick="handleFeedbackNo()">Ga</button>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="feedback-modal">
+                <div class="glass-card modal-content">
+                    <p id="feedback-modal-text" style="font-size: 18px; line-height: 1.5;"></p>
+                    <button class="btn-primary" onclick="closeFeedbackModal()">Kembali</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="screen" id="screen-closing">
+            <div class="hearts-container" id="hearts-overlay"></div>
+            <div class="glass-card" style="display: flex; flex-direction: column; gap: 24px; text-align: center; z-index: 4; align-items: center;">
+                <p style="font-size: 22px; font-weight: 700; color: var(--accent-pink); letter-spacing: 0.5px;">19 Januari 2024 — sekarang</p>
+                <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.9); font-style: italic;">"Hubungan ini emang ga selalu mulus, tapi setiap perjalanan yang kita lewati, baik yang penuh tawa maupun yang dipenuhi air mata, selalu mengajarkan bahwa cinta bukan tentang hubungan yang sempurna. Cinta adalah tentang dua orang yang tetap memilih satu sama lain, saling memperbaiki, dan terus berjuang bersama meski dunia tidak selalu berpihak."</p>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <h1 style="font-size: 32px; font-weight: 800; color: #fff; text-shadow: 0 0 15px var(--accent-pink);">I Love You ❤️</h1>
+                </div>
+                
+                <button class="btn-primary btn-glow" style="margin-top: 16px; width: 100%; max-width: 280px;" onclick="window.location.href='flower.html'">Ini last ya hehee</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // SINGLE GLOBAL AUDIO INSTANCE
+        const globalAudio = new Audio();
+        let currentTrackIndex = null;
+        let isIntroPlaying = false;
+
+        // Tracks definition
+        const tracklistData = [
+            { title: "Love Story (Taylor's Version)", artist: "Taylor Swift", src: "music/track1.mp3", duration: "4:00" },
+            { title: "My Love Mine All Mine", artist: "Mitski", src: "music/track2.mp3", duration: "2:18" },
+            { title: "Mine (Taylor's Version)", artist: "Taylor Swift", src: "music/track3.mp3", duration: "3:55" },
+            { title: "Perfect", artist: "Ed Sheeran", src: "music/track4.mp3", duration: "4:23" },
+            { title: "Lover (Remix) [feat. Shawn Mendes]", artist: "Taylor Swift, Shawn Mendes", src: "music/track5.mp3", duration: "3:41" },
+            { title: "Best Part (feat. H.E.R.)", artist: "Daniel Caesar, H.E.R.", src: "music/track6.mp3", duration: "3:29" },
+            { title: "About You", artist: "The 1975", src: "music/track7.mp3", duration: "5:26" },
+            { title: "you!", artist: "LANY", src: "music/track8.mp3", duration: "4:34" }
+        ];
+
+        // --- NEW: FUNGSI MEMUNCULKAN PARTIKEL GLOBAL (BINTANG & LOVE JATUH) ---
+        function initGlobalParticles() {
+            const container = document.getElementById('global-particles');
+            const particleTypes = ['✨', '💖', '⭐', '🤍', '💫'];
+
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'global-particle';
+                particle.innerHTML = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+                
+                // Variasi Ukuran, Posisi, dan Kecepatan Partikel
+                const size = Math.random() * 15 + 10; 
+                const left = Math.random() * 100; 
+                const animDuration = Math.random() * 6 + 6; // 6s to 12s
+                const delay = Math.random() * 3;
+
+                particle.style.fontSize = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.animationDuration = `${animDuration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                container.appendChild(particle);
+
+                // Membersihkan partikel agar tidak lemot (memory leak)
+                setTimeout(() => {
+                    particle.remove();
+                }, (animDuration + delay) * 1000);
+            }, 350); // Kecepatan memunculkan partikel baru
+        }
+
+        // Jalankan saat web dibuka
+        initGlobalParticles();
+        // ----------------------------------------------------------------------
+
+        // PIN Screen State
+        let enteredPin = "";
+        const targetPin = "240807";
+
+        function pressPin(num) {
+            if (enteredPin.length < 6) {
+                enteredPin += num;
+                updatePinDots();
+                document.getElementById('pin-error').style.opacity = "0";
+                if (enteredPin.length === 6) {
+                    setTimeout(validatePin, 250);
+                }
+            }
+        }
+
+        function clearPin() {
+            enteredPin = "";
+            updatePinDots();
+        }
+
+        function updatePinDots() {
+            const dots = document.querySelectorAll('#pin-dots-container .dot');
+            dots.forEach((dot, idx) => {
+                if (idx < enteredPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        function validatePin() {
+            if (enteredPin === targetPin) {
+                nextScreen('screen-choice');
+            } else {
+                document.getElementById('pin-error').innerText = "hmm salah nih, coba diinget lagii :)";
+                document.getElementById('pin-error').style.opacity = "1";
+                clearPin();
+            }
+        }
+
+        // Screen Navigation Logic
+        function nextScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const nextTarget = document.getElementById(screenId);
+            if (nextTarget) {
+                nextTarget.classList.add('active');
+            }
+
+            // Trigger WhatsApp typing if directed to screen-whatsapp
+            if (screenId === 'screen-whatsapp') {
+                startWhatsAppChat();
+            }
+        }
+
+        function showChoiceModal(show) {
+            const modal = document.getElementById('choice-modal');
+            if (show) {
+                modal.classList.add('active');
+            } else {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Audio Handling System
+        function startIntroMusic() {
+            globalAudio.src = "intro.mp3";
+            globalAudio.loop = true;
+            globalAudio.volume = 0;
+            globalAudio.play().catch(e => console.log("Audio play deferred or failed: ", e));
+            isIntroPlaying = true;
+
+            // Fade volume from 0% to 60%
+            let vol = 0;
+            const fadeInterval = setInterval(() => {
+                if (vol < 0.6) {
+                    vol += 0.05;
+                    globalAudio.volume = Math.min(vol, 0.6);
+                } else {
+                    clearInterval(fadeInterval);
+                }
+            }, 100);
+
+            nextScreen('screen-story-1');
+        }
+
+        function goToSpotifyScreen() {
+            // Setup tracklist UI
+            const container = document.getElementById('spotify-tracklist');
+            container.innerHTML = "";
+            tracklistData.forEach((track, idx) => {
+                const item = document.createElement('div');
+                item.className = "track-item";
+                item.id = `track-${idx}`;
+                item.setAttribute('onclick', `playTrack(${idx})`);
+                item.innerHTML = `
+                    <div class="track-meta">
+                        <span class="track-index">${idx + 1}</span>
+                        <div>
+                            <div class="track-title">${track.title}</div>
+                            <div class="track-artist">${track.artist}</div>
+                        </div>
+                    </div>
+                    <span class="track-duration">${track.duration}</span>
+                `;
+                container.appendChild(item);
+            });
+
+            nextScreen('screen-spotify');
+        }
+
+        function playTrack(index) {
+            // Clear intro state if playing
+            if (isIntroPlaying) {
+                globalAudio.pause();
+                isIntroPlaying = false;
+            }
+
+            // Reset UI previous track
+            if (currentTrackIndex !== null) {
+                const prevItem = document.getElementById(`track-${currentTrackIndex}`);
+                if (prevItem) prevItem.classList.remove('playing');
+            }
+
+            currentTrackIndex = index;
+            const track = tracklistData[index];
+            
+            // Safe Reset Single Audio Player
+            globalAudio.pause();
+            globalAudio.currentTime = 0;
+            globalAudio.src = track.src;
+            globalAudio.loop = false;
+            globalAudio.volume = 1.0;
+            globalAudio.play().catch(e => console.log(e));
+
+            // Set UI Active Track
+            document.getElementById(`track-${index}`).classList.add('playing');
+            document.getElementById('np-title').innerText = track.title;
+            document.getElementById('np-artist').innerText = track.artist;
+            document.getElementById('spotify-main-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // Pause icon
+        }
+
+        function toggleSpotifyPlay() {
+            if (currentTrackIndex === null) {
+                playTrack(0);
+            } else {
+                if (globalAudio.paused) {
+                    globalAudio.play();
+                    document.getElementById('spotify-main-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                } else {
+                    globalAudio.pause();
+                    document.getElementById('spotify-main-icon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+                }
+            }
+        }
+
+        // Global Synchronized Progress Tracker
+        globalAudio.addEventListener('timeupdate', () => {
+            if (!isIntroPlaying && currentTrackIndex !== null) {
+                const curTime = globalAudio.currentTime;
+                const duration = globalAudio.duration || 0;
+                if (duration > 0) {
+                    const pct = (curTime / duration) * 100;
+                    document.getElementById('progress-fill').style.width = `${pct}%`;
+                    document.getElementById('progress-current').innerText = formatTime(curTime);
+                    document.getElementById('progress-duration').innerText = formatTime(duration);
+                }
+            }
+        });
+
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function seekAudio(e) {
+            if (currentTrackIndex !== null && globalAudio.duration) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const pct = clickX / width;
+                globalAudio.currentTime = pct * globalAudio.duration;
+            }
+        }
+
+        // WhatsApp Simulated Communication Flow
+        const waMessages = [
+            { type:'incoming', text:'haiiiii sayanggg ❤️' },
+            { type:'outgoing', text:'haiii jugaa tayangg' },
+            { type:'incoming', text:'lagii ngapainnn?' },
+            { type:'outgoing', text:'lagiii siapinn sesuatuu bwtt kmm hehee' },
+            { type:'incoming', text:'iihh apaann tuhh?' },
+            { type:'outgoing', text:'nntii juga tww kokkk hahaa 😆' },
+            { type:'outgoing', text:'nntii kmm cukup masukinn kodeee ini aja yaaa: 19012024' },
+            { type:'incoming', text:'heumm, okeeyyy' }
+        ];
+
+        function startWhatsAppChat() {
+            const container = document.getElementById('wa-messages-container');
+            container.innerHTML = "";
+            let msgIdx = 0;
+
+            function renderNextMessage() {
+                if(msgIdx >= waMessages.length){
+                    document.getElementById('wa-status').innerText = 'Online';
+                    return;
+                }
+
+                const data = waMessages[msgIdx];
+                const typingNeeded = data.type === 'incoming';
+
+                if(typingNeeded){
+                    document.getElementById('wa-status').innerText = 'sedang mengetik...';
+                }
+
+                setTimeout(()=>{
+                    const bubble = document.createElement('div');
+                    bubble.className = `wa-bubble wa-${data.type}`;
+                    const now = new Date();
+                    const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+                    bubble.innerHTML = `${data.text}<span class="wa-time">${timeStr}</span>`;
+                    container.appendChild(bubble);
+
+                    setTimeout(()=>{
+                        bubble.classList.add('show');
+                    },50);
+
+                    container.scrollTop = container.scrollHeight;
+                    document.getElementById('wa-status').innerText = 'Online';
+                    msgIdx++;
+                    setTimeout(renderNextMessage,1500);
+
+                }, typingNeeded ? 1200 : 300);
+            }
+
+            renderNextMessage();
+        }
+
+        // Secret Code Verification Screen
+        function checkSecretCode() {
+            const val = document.getElementById('secret-code-field').value;
+            if (val === "19012024") {
+                nextScreen('screen-childhood');
+            } else if (val.length >= 8) {
+                document.getElementById('code-error').innerText = "Kode nya salah, coba deh di inget lagii. Tentang kita lohh :)";
+                document.getElementById('code-error').style.opacity = "1";
+            } else {
+                document.getElementById('code-error').style.opacity = "0";
+            }
+        }
+
+        // Fleeing Button Interactive Engine (Screen 10)
+        const btnNo = document.getElementById('btn-no-final');
+        const containerZone = document.getElementById('question-actions-zone');
+        const tauntZone = document.getElementById('taunt-zone');
+
+        function moveButtonRandomly() {
+            const containerWidth = containerZone.clientWidth;
+            const containerHeight = containerZone.clientHeight;
+            const btnWidth = btnNo.clientWidth;
+            const btnHeight = btnNo.clientHeight;
+
+            const maxLeft = containerWidth - btnWidth;
+            const maxTop = containerHeight - btnHeight;
+
+            const randomLeft = Math.floor(Math.random() * maxLeft);
+            const randomTop = Math.floor(Math.random() * maxTop);
+
+            btnNo.style.left = `${randomLeft}px`;
+            btnNo.style.top = `${randomTop}px`;
+            btnNo.style.right = 'auto'; // Break initial right constraint
+
+            // Munculkan teks dan gambar ejekan di area bawah
+            tauntZone.style.opacity = "1";
+        }
+
+        // Touch event to make it completely unclickable on mobile
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButtonRandomly();
+        }, { passive: false });
+
+        btnNo.addEventListener('mouseover', moveButtonRandomly);
+
+        // Feedback System Handlers
+        let clickCountNo = 0;
+        function handleFeedbackNo() {
+            clickCountNo++;
+            const modal = document.getElementById('feedback-modal');
+            const modalText = document.getElementById('feedback-modal-text');
+            const btnsContainer = document.getElementById('feedback-2-btns-container');
+            const btnNoFeedback = document.getElementById('btn-no-feedback');
+            const tauntText = document.getElementById('feedback-taunt-text');
+
+            if (clickCountNo === 1) {
+                modalText.innerText = "Dih, pilih ulang gaa!!!";
+                modal.classList.add('active');
+            } else if (clickCountNo === 2) {
+                modalText.innerText = "Dibilang pilih ulangg!!";
+                modal.classList.add('active');
+            } else {
+                // Remove the NO button completely on 3rd attempt
+                btnNoFeedback.style.display = 'none';
+                btnsContainer.style.gridTemplateColumns = '1fr';
+                tauntText.style.display = 'block';
+            }
+        }
+
+        // Close Modal
+        function closeFeedbackModal() {
+            document.getElementById('feedback-modal').classList.remove('active');
+        }
+
+        function triggerTrueEnding() {
+            nextScreen('screen-closing');
+            createHearts();
+        }
+
+        // Heart Particles Generator
+        function createHearts() {
+            const container = document.getElementById('hearts-overlay');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '❤️';
+                
+                // Randomize properties
+                const size = Math.random() * 20 + 10; // 10px to 30px
+                const left = Math.random() * 100; // 0% to 100%
+                const animDuration = Math.random() * 3 + 3; // 3s to 6s
+
+                heart.style.fontSize = `${size}px`;
+                heart.style.left = `${left}%`;
+                heart.style.animationDuration = `${animDuration}s`;
+
+                container.appendChild(heart);
+
+                // Cleanup
+                setTimeout(() => {
+                    heart.remove();
+                }, animDuration * 1000);
+            }, 300);
+        }
+
+        // Initialize App
+        setTimeout(() => {
+            document.getElementById('screen-lock').classList.add('active');
+        }, 500);
+
+    </script>
+</body>
+</html>
